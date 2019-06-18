@@ -18,5 +18,7 @@ func main()  {
 
         e.POST("/track", controllers.Tracking)
 
+        e.GET("/ws", controllers.WebSocket)
+
         e.Start(":5050")
 }
