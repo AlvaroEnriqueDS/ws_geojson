@@ -65,7 +65,7 @@ func Tracking(c echo.Context) error  {
         j, err := json.Marshal(&geoj)
         if _, err := ws.Write(j); err != nil {
                 fmt.Println("Error al convertir geojson a bytes :/track")
-                log.Fatal(err)
+                log.Error(err)
 
                 msg.Message = "No se pudo convertir la data a GeoJson"
                 msg.ErrorCode = "Error code"
