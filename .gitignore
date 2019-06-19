@@ -6,6 +6,8 @@ git status### Go ###
 *.so
 *.dylib
 
+./ws.potencie
+
 #carpetas
 .idea
 /keys/*.rsa
