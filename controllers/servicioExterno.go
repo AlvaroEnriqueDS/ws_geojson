@@ -15,7 +15,20 @@ func Tracking(c echo.Context) error  {
         track := models.ServicioExterno{}
         msg := models.Error{}
 
+        canal := c.Param("canal")
+        /*
+        if canal == ""{
+                msg.Message = "El canal es obligatorio"
+                msg.ErrorCode = "Error code"
+                msg.Error = ""
 
+                return c.JSON(400, msg)
+        }
+        */
+
+        fmt.Println("///////////////////////////////////////")
+        fmt.Println(canal)
+        fmt.Println("///////////////////////////////////////")
         err := c.Bind(&track)
         if err != nil {
                 fmt.Println("Error al aceptar la data entrante :/track")
@@ -64,7 +77,7 @@ func Tracking(c echo.Context) error  {
         origin := fmt.Sprintf(
                 "http://localhost:%d/", port)
         url := fmt.Sprintf(
-                "ws://localhost:%d/ws", port)
+                "ws://localhost:%d/%s/ws", port, canal)
         ws, err := websocket.Dial(url, "", origin)
         if err != nil {
                 fmt.Println("Error al crear el websocket :/track ")

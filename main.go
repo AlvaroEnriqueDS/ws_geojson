@@ -16,9 +16,9 @@ func main()  {
                 AllowMethods:   []string{echo.GET, echo.POST},
         }))
 
-        e.POST("/track", controllers.Tracking)
+        e.POST("/track/:canal", controllers.Tracking)
 
-        e.GET("/ws", controllers.WebSocket)
+        e.GET("/:canal/ws", controllers.WebSocket)
 
         e.Start(":5050")
 }
