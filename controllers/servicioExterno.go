@@ -30,7 +30,7 @@ func Tracking(c echo.Context) error  {
         fmt.Println(track)
 
         if track.Nickname == "" {
-                msg.Message = "El campo nickname no puede estar vacio"
+                msg.Message = "El campo nickname no puede estar vacio :/track"
                 msg.ErrorCode = "Error code"
                 msg.Error = ""
 
@@ -45,11 +45,12 @@ func Tracking(c echo.Context) error  {
 
         stmt, err := db.Prepare(constans.Insert_Tracking)
         if err != nil {
-                fmt.Println("Error al preparar la querie")
-                log.Fatal(err)
+                fmt.Println("Error al preparar la querie :/track")
+                log.Error(err)
 
-                msg.Message = "No se acceder a la querie con exito"
+                msg.Message = "No se accede a la bd con exito)"
                 msg.ErrorCode = "Error code"
+                msg.Error = err.Error()
 
                 return c.JSON(500, msg)
         }

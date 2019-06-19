@@ -38,7 +38,8 @@ func getConfiguration() (configuration, error)  {
 func GetConnectionPsql() *sql.DB  {
         config, err := getConfiguration()
         if err != nil {
-                log.Fatalln(err)
+                log.Println(err)
+                return nil
         }
 
         dsn := fmt.Sprintf(
@@ -52,7 +53,8 @@ func GetConnectionPsql() *sql.DB  {
 
         db, err := sql.Open("postgres", dsn)
         if err != nil {
-                log.Fatalln(err)
+                log.Println(err)
+                return nil
         }
         return db
 }
