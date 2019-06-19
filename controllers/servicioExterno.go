@@ -16,14 +16,25 @@ func Tracking(c echo.Context) error  {
 
         err := c.Bind(&track)
         if err != nil {
-                fmt.Println("Error al volcar la data entrante")
-                log.Fatal(err)
+                fmt.Println("Error al aceptar la data entrante :/track")
+                log.Error(err)
 
-                msg.Message = "No se pudo recibir el json"
+                msg.Message = "Error al aceptar la data entrante"
                 msg.ErrorCode = "Error code"
+                msg.Error = err.Error()
 
                 return c.JSON(400, msg)
         }
+
+        if track.Nickname == "" {
+                msg.Message = "El campo nickname no puede estar vacio"
+                msg.ErrorCode = "Error code"
+                msg.Error = ""
+
+                return c.JSON(400, msg)
+        }
+
+        //control := control(track)
 
         port := 5050
         //port2 := 9494
@@ -33,11 +44,12 @@ func Tracking(c echo.Context) error  {
                 "ws://localhost:%d/ws", port)
         ws, err := websocket.Dial(url, "", origin)
         if err != nil {
-                fmt.Println("Error al crear el websocket")
-                log.Fatal(err)
+                fmt.Println("Error al crear el websocket :/track ")
+                log.Error(err)
 
                 msg.Message = "No se pudo crear la conexion WS"
                 msg.ErrorCode = "Error code"
+                msg.Error = err.Error()
 
                 return c.JSON(500, msg)
         }
@@ -52,17 +64,44 @@ func Tracking(c echo.Context) error  {
 
         j, err := json.Marshal(&geoj)
         if _, err := ws.Write(j); err != nil {
-                fmt.Println("Error al convertir geojson a bytes")
+                fmt.Println("Error al convertir geojson a bytes :/track")
                 log.Fatal(err)
 
-                msg.Message = "No se pudo convertir la respuesta a bytes"
+                msg.Message = "No se pudo convertir la data a GeoJson"
                 msg.ErrorCode = "Error code"
+                msg.Error = err.Error()
 
                 return c.JSON(500, msg)
         }
 
-        msg.Message = "Todo salio bien"
-        msg.ErrorCode= "Error code"
-
         return c.JSON(200, geoj)
+}
+
+func control(track models.ServicioExterno)  (regreso []models.Error){
+        var msg models.Error
+        if track.Nickname ==  "" {
+                msg.Message = "El campo nickname no puede entrar vacio"
+                msg.ErrorCode = "Error code"
+
+                regreso = append(regreso, msg)
+
+        }
+        /*
+        if track.Latitude == 0 {
+                msg.Message = ""
+                msg.ErrorCode = "Error code"
+                msg.Error = ""
+
+                regreso = append(regreso, msg)
+        }
+        if track.Longitude == 0 {
+                msg.Message = "El campo nickname no puede entrar vacio"
+                msg.ErrorCode = "Error code"
+                msg.Error = ""
+
+                regreso = append(regreso, msg)
+        }
+        */
+
+        return regreso
 }
