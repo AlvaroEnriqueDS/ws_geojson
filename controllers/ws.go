@@ -13,8 +13,6 @@ func init()  {
 }
 
 func WebSocket(c echo.Context) error {
-
-
         mel.HandleRequest(c.Response().Writer, c.Request())
         //mel.HandleConnect(hConnect)
         //mel.HandleDisconnect(hDisconnect)
