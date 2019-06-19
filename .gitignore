@@ -6,8 +6,6 @@ git status### Go ###
 *.so
 *.dylib
 
-./ws.potencie
-
 #carpetas
 .idea
 /keys/*.rsa
@@ -26,3 +24,6 @@ git status### Go ###
 config.json
 
 # End of https://www.gitignore.io/api/go
+
+ws_potencie
+main
