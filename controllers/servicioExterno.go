@@ -3,6 +3,8 @@ package controllers
 import (
         "encoding/json"
         "fmt"
+        "github.com/alvaroenriqueds/ws_potencie/configuration"
+        "github.com/alvaroenriqueds/ws_potencie/constans"
         "github.com/alvaroenriqueds/ws_potencie/models"
         "github.com/labstack/echo"
         "github.com/labstack/gommon/log"
@@ -16,14 +18,36 @@ func Tracking(c echo.Context) error  {
 
         err := c.Bind(&track)
         if err != nil {
+                fmt.Println(track)
                 fmt.Println("Error al volcar la data entrante")
                 log.Fatal(err)
+                //recover()
 
                 msg.Message = "No se pudo recibir el json"
                 msg.ErrorCode = "Error code"
 
                 return c.JSON(400, msg)
         }
+        fmt.Println(track)
+
+        //bd
+        db:= configuration.GetConnectionPsql()
+        defer db.Close()
+
+        stmt, err := db.Prepare(constans.Insert_Tracking)
+        if err != nil {
+                fmt.Println("Error al preparar la querie")
+                log.Fatal(err)
+
+                msg.Message = "No se acceder a la querie con exito"
+                msg.ErrorCode = "Error code"
+
+                return c.JSON(500, msg)
+        }
+        stmt.QueryRow(track.Nickname, track.Latitude, track.Longitude, track.Acuraccy)
+        //stmt.Exec(track.Nickname, track.Latitude, track.Longitude, track.Acuraccy)
+
+
 
         port := 5050
         //port2 := 9494
