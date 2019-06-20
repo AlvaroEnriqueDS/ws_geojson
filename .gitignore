@@ -26,3 +26,6 @@ config.json
 # End of https://www.gitignore.io/api/go
 
 ws_potencie
+main
+
+
