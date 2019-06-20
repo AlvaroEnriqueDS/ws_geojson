@@ -21,5 +21,8 @@ func WebSocket(c echo.Context) error {
 }
 
 func hMessage(s *melody.Session, msg []byte) {
-        mel.Broadcast(msg)
+        //mel.Broadcast(msg)
+        mel.BroadcastFilter(msg, func(q *melody.Session) bool {
+                return q.Request.URL.Path == s.Request.URL.Path
+        })
 }
